@@ -6,7 +6,7 @@ const serializePrice = (view: PriceView) => ({
   store: view.storeName,
   product: view.productName,
   brand: view.brand,
-  size: view.size,
+  unit: view.unit,
   price: view.price.toDecimalString(),
   currency: view.price.currency,
 });

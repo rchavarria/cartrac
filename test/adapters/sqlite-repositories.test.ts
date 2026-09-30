@@ -30,7 +30,7 @@ describe('SQLite repositories', () => {
   after(() => db.close());
 
   it('stores and retrieves products, stores and prices', async () => {
-    const product = createProduct({ name: 'Café molido', brand: 'Marcilla', size: '250 g' });
+    const product = createProduct({ name: 'Café molido', brand: 'Marcilla', unit: '250 g' });
     const store = createStore('Día');
     await products.save(product);
     await stores.save(store);

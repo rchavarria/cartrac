@@ -21,7 +21,7 @@ export class ExportData {
       storeName: view.storeName,
       productName: view.productName,
       brand: view.brand,
-      size: view.size,
+      unit: view.unit,
       price: view.price.toDecimalString(),
       currency: view.price.currency,
     }));

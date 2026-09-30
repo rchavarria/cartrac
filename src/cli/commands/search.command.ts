@@ -6,7 +6,7 @@ export function registerSearchCommand(program: Command, ctx: CliContext): void {
   program
     .command('search')
     .description('Show the price history of products matching a query')
-    .argument('<query...>', 'words to look for in product name, brand or size')
+    .argument('<query...>', 'words to look for in product name, brand or unit')
     .option('-s, --store <name>', 'only show prices from this store')
     .addOption(
       new Option('-o, --output <format>', 'output format').choices(OUTPUT_FORMATS).default('table'),

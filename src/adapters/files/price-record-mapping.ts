@@ -6,7 +6,7 @@ export const RECORD_FIELDS = [
   'store',
   'product',
   'brand',
-  'size',
+  'unit',
   'price',
   'currency',
 ] as const;
@@ -36,7 +36,7 @@ export function recordFromFields(
     storeName: required('store'),
     productName: required('product'),
     brand: optional('brand'),
-    size: optional('size'),
+    unit: optional('unit'),
     price: required('price'),
     currency: optional('currency') ?? DEFAULT_CURRENCY,
   };
@@ -48,7 +48,7 @@ export function recordToFields(record: PriceRecord): Record<RecordField, string>
     store: record.storeName,
     product: record.productName,
     brand: record.brand ?? '',
-    size: record.size ?? '',
+    unit: record.unit ?? '',
     price: record.price,
     currency: record.currency,
   };

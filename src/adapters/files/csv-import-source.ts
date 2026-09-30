@@ -3,7 +3,7 @@ import type { ImportSource, PriceRecord } from '../../ports/index.ts';
 import { detectDelimiter, parseCsv } from './csv.ts';
 import { recordFromFields } from './price-record-mapping.ts';
 
-/** Reads a CSV with header: date,store,product,brand,size,price,currency */
+/** Reads a CSV with header: date,store,product,brand,unit,price,currency */
 export class CsvImportSource implements ImportSource {
   readonly description: string;
   readonly #path: string;

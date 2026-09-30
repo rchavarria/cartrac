@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import type { ImportSource, PriceRecord } from '../../ports/index.ts';
 import { recordFromFields } from './price-record-mapping.ts';
 
-/** Reads a JSON array of objects: [{ "date", "store", "product", "brand", "size", "price", "currency" }] */
+/** Reads a JSON array of objects: [{ "date", "store", "product", "brand", "unit", "price", "currency" }] */
 export class JsonImportSource implements ImportSource {
   readonly description: string;
   readonly #path: string;

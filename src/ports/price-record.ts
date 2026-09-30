@@ -9,7 +9,7 @@ export interface PriceRecord {
   readonly storeName: string;
   readonly productName: string;
   readonly brand: string | null;
-  readonly size: string | null;
+  readonly unit: string | null;
   /** Decimal amount, e.g. "1.25" */
   readonly price: string;
   /** ISO 4217 code, e.g. "EUR" */

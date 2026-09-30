@@ -26,7 +26,7 @@ export class ProductMatcher {
 
   static key(product: ProductDescription): string {
     return ProductMatcher.normalize(
-      [product.name, product.brand, product.size].filter(Boolean).join(' '),
+      [product.name, product.brand, product.unit].filter(Boolean).join(' '),
     );
   }
 

@@ -10,24 +10,24 @@ describe('ProductMatcher', () => {
   });
 
   it('matches the same product written differently', () => {
-    const a = createProduct({ name: 'Leche Entera', brand: 'Hacendado', size: '1L' });
-    const b = createProduct({ name: 'leche entera', brand: 'HACENDADO', size: '1 l' });
+    const a = createProduct({ name: 'Leche Entera', brand: 'Hacendado', unit: '1L' });
+    const b = createProduct({ name: 'leche entera', brand: 'HACENDADO', unit: '1 l' });
     assert.ok(matcher.matches(a, b));
   });
 
   it('does not match different products', () => {
-    const a = createProduct({ name: 'Leche Entera', brand: 'Hacendado', size: '1L' });
-    const b = createProduct({ name: 'Leche Desnatada', brand: 'Pascual', size: '1L' });
+    const a = createProduct({ name: 'Leche Entera', brand: 'Hacendado', unit: '1L' });
+    const b = createProduct({ name: 'Leche Desnatada', brand: 'Pascual', unit: '1L' });
     assert.ok(!matcher.matches(a, b));
   });
 
   it('finds the best match among existing products', () => {
     const existing = [
-      createProduct({ name: 'Aceite de oliva virgen extra', size: '1 L' }),
-      createProduct({ name: 'Aceite de girasol', size: '1 L' }),
+      createProduct({ name: 'Aceite de oliva virgen extra', unit: '1 L' }),
+      createProduct({ name: 'Aceite de girasol', unit: '1 L' }),
     ];
     const found = matcher.findBestMatch(
-      { name: 'Aceite oliva virgen extra', brand: null, size: '1L' },
+      { name: 'Aceite oliva virgen extra', brand: null, unit: '1L' },
       existing,
     );
     assert.equal(found, existing[0]);

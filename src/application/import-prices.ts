@@ -76,7 +76,7 @@ export class ImportPrices {
     const candidate = createProduct({
       name: record.productName,
       brand: record.brand,
-      size: record.size,
+      unit: record.unit,
     });
     const existing = this.#deps.matcher.findBestMatch(candidate, knownProducts);
     if (existing) return existing;

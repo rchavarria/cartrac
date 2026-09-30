@@ -13,7 +13,7 @@ export interface PriceView {
   readonly productId: ProductId;
   readonly productName: string;
   readonly brand: string | null;
-  readonly size: string | null;
+  readonly unit: string | null;
   readonly storeName: string;
   readonly price: Money;
   readonly observedAt: IsoDate;
@@ -44,7 +44,7 @@ export async function toPriceViews(
         productId: product.id,
         productName: product.name,
         brand: product.brand,
-        size: product.size,
+        unit: product.unit,
         storeName: store.name,
         price: observation.price,
         observedAt: observation.observedAt,

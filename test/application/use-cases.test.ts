@@ -20,7 +20,7 @@ const record = (overrides: Partial<PriceRecord>): PriceRecord => ({
   storeName: 'Mercadona',
   productName: 'Leche entera',
   brand: 'Hacendado',
-  size: '1 L',
+  unit: '1 L',
   price: '0.95',
   currency: 'EUR',
   ...overrides,
@@ -46,7 +46,7 @@ describe('application use cases', () => {
       sourceOf([
         record({}),
         record({ observedAt: '2026-09-15', price: '0.99' }),
-        record({ storeName: 'Carrefour', productName: 'LECHE ENTERA', size: '1L', price: '1.09' }),
+        record({ storeName: 'Carrefour', productName: 'LECHE ENTERA', unit: '1L', price: '1.09' }),
         record({
           storeName: 'Carrefour',
           productName: 'Pan de molde',

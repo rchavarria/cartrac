@@ -13,7 +13,7 @@ const SCHEMA = `
     id          TEXT PRIMARY KEY,
     name        TEXT NOT NULL,
     brand       TEXT,
-    size        TEXT,
+    unit        TEXT,
     search_key  TEXT NOT NULL
   );
 
@@ -42,5 +42,19 @@ export function openSqliteDatabase(path: string): SqliteDatabase {
   const db = new DatabaseSync(path);
   db.exec('PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;');
   db.exec(SCHEMA);
+  migrate(db);
   return db;
+}
+
+function columnNames(db: SqliteDatabase, table: string): string[] {
+  const rows = db.prepare(`PRAGMA table_info(${table})`).all() as unknown as { name: string }[];
+  return rows.map((row) => row.name);
+}
+
+/** Upgrades databases created with older schemas. Each step must be idempotent. */
+function migrate(db: SqliteDatabase): void {
+  // products.size was renamed to products.unit
+  if (columnNames(db, 'products').includes('size')) {
+    db.exec('ALTER TABLE products RENAME COLUMN size TO unit');
+  }
 }

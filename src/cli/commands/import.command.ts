@@ -6,7 +6,7 @@ export function registerImportCommand(program: Command, ctx: CliContext): void {
   program
     .command('import')
     .description('Import price observations from a CSV or JSON file')
-    .argument('<file>', 'file to import (columns: date,store,product,brand,size,price,currency)')
+    .argument('<file>', 'file to import (columns: date,store,product,brand,unit,price,currency)')
     .addOption(
       new Option('-f, --format <format>', 'file format (default: inferred from extension)').choices(
         FILE_FORMATS,

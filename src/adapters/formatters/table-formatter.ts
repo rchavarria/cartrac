@@ -19,13 +19,13 @@ export class TableFormatter implements OutputFormatter {
   formatPrices(rows: readonly PriceView[]): string {
     if (rows.length === 0) return EMPTY;
     return renderTable(
-      ['Date', 'Store', 'Product', 'Brand', 'Size', 'Price'],
+      ['Date', 'Store', 'Product', 'Brand', 'Unit', 'Price'],
       rows.map((r) => [
         r.observedAt,
         r.storeName,
         r.productName,
         r.brand ?? '',
-        r.size ?? '',
+        r.unit ?? '',
         r.price.toString(),
       ]),
     );
@@ -34,11 +34,11 @@ export class TableFormatter implements OutputFormatter {
   formatComparison(rows: readonly ComparisonRow[]): string {
     if (rows.length === 0) return EMPTY;
     return renderTable(
-      ['Product', 'Brand', 'Size', 'Store', 'Price', 'Date', 'vs cheapest'],
+      ['Product', 'Brand', 'Unit', 'Store', 'Price', 'Date', 'vs cheapest'],
       rows.map((r) => [
         r.productName,
         r.brand ?? '',
-        r.size ?? '',
+        r.unit ?? '',
         r.storeName,
         r.price.toString(),
         r.observedAt,

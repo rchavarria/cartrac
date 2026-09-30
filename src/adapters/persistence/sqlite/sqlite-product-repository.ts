@@ -11,11 +11,11 @@ interface ProductRow {
   id: string;
   name: string;
   brand: string | null;
-  size: string | null;
+  unit: string | null;
 }
 
 const toProduct = (row: ProductRow): Product =>
-  createProduct({ name: row.name, brand: row.brand, size: row.size }, row.id);
+  createProduct({ name: row.name, brand: row.brand, unit: row.unit }, row.id);
 
 export class SqliteProductRepository implements ProductRepository {
   readonly #db: SqliteDatabase;
@@ -27,17 +27,17 @@ export class SqliteProductRepository implements ProductRepository {
   async save(product: Product): Promise<void> {
     this.#db
       .prepare(
-        `INSERT INTO products (id, name, brand, size, search_key) VALUES (?, ?, ?, ?, ?)
+        `INSERT INTO products (id, name, brand, unit, search_key) VALUES (?, ?, ?, ?, ?)
          ON CONFLICT (id) DO UPDATE SET
            name = excluded.name, brand = excluded.brand,
-           size = excluded.size, search_key = excluded.search_key`,
+           unit = excluded.unit, search_key = excluded.search_key`,
       )
-      .run(product.id, product.name, product.brand, product.size, ProductMatcher.key(product));
+      .run(product.id, product.name, product.brand, product.unit, ProductMatcher.key(product));
   }
 
   async findById(id: ProductId): Promise<Product | undefined> {
     const row = this.#db
-      .prepare('SELECT id, name, brand, size FROM products WHERE id = ?')
+      .prepare('SELECT id, name, brand, unit FROM products WHERE id = ?')
       .get(id) as unknown as ProductRow | undefined;
     return row ? toProduct(row) : undefined;
   }
@@ -48,14 +48,14 @@ export class SqliteProductRepository implements ProductRepository {
 
     const where = terms.map(() => 'search_key LIKE ?').join(' AND ');
     const rows = this.#db
-      .prepare(`SELECT id, name, brand, size FROM products WHERE ${where} ORDER BY name`)
+      .prepare(`SELECT id, name, brand, unit FROM products WHERE ${where} ORDER BY name`)
       .all(...terms.map((term) => `%${term}%`)) as unknown as ProductRow[];
     return rows.map(toProduct);
   }
 
   async findAll(): Promise<Product[]> {
     const rows = this.#db
-      .prepare('SELECT id, name, brand, size FROM products ORDER BY name')
+      .prepare('SELECT id, name, brand, unit FROM products ORDER BY name')
       .all() as unknown as ProductRow[];
     return rows.map(toProduct);
   }

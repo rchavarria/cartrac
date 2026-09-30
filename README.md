@@ -9,7 +9,7 @@ CLI in TypeScript (Node ≥ 24, native type stripping), SQLite (`node:sqlite`), 
 
 ```bash
 npm install
-npm start -- import examples/prices.csv     # CSV or JSON (date,store,product,brand,size,price,currency)
+npm start -- import examples/prices.csv     # CSV or JSON (date,store,product,brand,unit,price,currency)
 npm start -- search leche --store mercadona # price history
 npm start -- compare aceite -o json         # latest price per store, cheapest first
 npm start -- export backup.csv              # re-importable export

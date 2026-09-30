@@ -6,7 +6,7 @@ export function registerCompareCommand(program: Command, ctx: CliContext): void 
   program
     .command('compare')
     .description('Compare the latest price of matching products across stores')
-    .argument('<query...>', 'words to look for in product name, brand or size')
+    .argument('<query...>', 'words to look for in product name, brand or unit')
     .addOption(
       new Option('-o, --output <format>', 'output format').choices(OUTPUT_FORMATS).default('table'),
     )
