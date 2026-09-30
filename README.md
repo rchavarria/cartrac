@@ -8,7 +8,7 @@ CLI in TypeScript (Node ≥ 24, native type stripping), SQLite (`node:sqlite`), 
 ## Usage
 
 ```bash
-npm install
+npm clean-install --no-fund --no-audit
 npm start -- import examples/prices.csv     # CSV or JSON (date,store,product,brand,unit,price,currency)
 npm start -- search leche --store mercadona # price history
 npm start -- compare aceite -o json         # latest price per store, cheapest first
@@ -25,6 +25,8 @@ npm run build   # compiles to dist/ (bin: cartrac)
 ```
 
 ## Architecture
+
+See also: [data model](docs/data-model.md).
 
 Modular monolith following hexagonal architecture (ports & adapters). Dependencies always point
 inwards: `cli → application → domain`, and adapters implement the ports. The CLI never touches
