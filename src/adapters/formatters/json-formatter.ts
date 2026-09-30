@@ -1,8 +1,9 @@
 import type { ComparisonRow, PriceView } from '../../application/index.ts';
+import { formatIsoDate } from '../../domain/index.ts';
 import type { OutputFormatter } from './output-formatter.ts';
 
 const serializePrice = (view: PriceView) => ({
-  date: view.observedAt,
+  date: formatIsoDate(view.observedAt),
   store: view.storeName,
   product: view.productName,
   brand: view.brand,

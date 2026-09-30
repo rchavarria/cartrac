@@ -73,6 +73,8 @@ export class InMemoryPriceRepository implements PriceRepository {
 
   #sorted(): PriceObservation[] {
     // Most recent first; for equal dates, last inserted first.
-    return [...this.#items].reverse().sort((a, b) => b.observedAt.localeCompare(a.observedAt));
+    return [...this.#items]
+      .reverse()
+      .sort((a, b) => b.observedAt.getTime() - a.observedAt.getTime());
   }
 }

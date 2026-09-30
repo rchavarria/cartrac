@@ -12,7 +12,7 @@ import {
   ImportPrices,
   SearchPrices,
 } from '../../src/application/index.ts';
-import { ProductMatcher } from '../../src/domain/index.ts';
+import { formatIsoDate, ProductMatcher } from '../../src/domain/index.ts';
 import type { DataExporter, ImportSource, PriceRecord } from '../../src/ports/index.ts';
 
 const record = (overrides: Partial<PriceRecord>): PriceRecord => ({
@@ -74,7 +74,7 @@ describe('application use cases', () => {
   it('SearchPrices returns the history most recent first, filtered by store', async () => {
     const rows = await new SearchPrices(repositories).execute({ text: 'leche', store: 'merca' });
     assert.deepEqual(
-      rows.map((r) => [r.observedAt, r.price.toDecimalString()]),
+      rows.map((r) => [formatIsoDate(r.observedAt), r.price.toDecimalString()]),
       [
         ['2026-09-15', '0.99'],
         ['2026-09-01', '0.95'],

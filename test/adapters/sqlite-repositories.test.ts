@@ -12,6 +12,7 @@ import {
   createProduct,
   createStore,
   Money,
+  parseIsoDate,
 } from '../../src/domain/index.ts';
 
 describe('SQLite repositories', () => {
@@ -39,7 +40,7 @@ describe('SQLite repositories', () => {
         productId: product.id,
         storeId: store.id,
         price: Money.parse('3.45'),
-        observedAt: '2026-09-10',
+        observedAt: parseIsoDate('2026-09-10'),
       }),
     );
 
@@ -52,6 +53,6 @@ describe('SQLite repositories', () => {
 
     const [observation] = await prices.findByProducts([product.id]);
     assert.equal(observation?.price.toString(), '3.45 EUR');
-    assert.equal(observation?.observedAt, '2026-09-10');
+    assert.deepEqual(observation?.observedAt, new Date('2026-09-10T00:00:00Z'));
   });
 });

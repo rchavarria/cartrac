@@ -5,6 +5,7 @@ import {
   Money,
   type Product,
   type ProductMatcher,
+  parseIsoDate,
   type Store,
 } from '../domain/index.ts';
 import type { ImportSource, PriceRecord } from '../ports/index.ts';
@@ -45,7 +46,7 @@ export class ImportPrices {
             productId: product.id,
             storeId: store.id,
             price: Money.parse(record.price, record.currency),
-            observedAt: record.observedAt,
+            observedAt: parseIsoDate(record.observedAt),
           }),
         );
         observations++;

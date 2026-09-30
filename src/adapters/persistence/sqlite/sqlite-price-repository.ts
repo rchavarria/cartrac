@@ -1,8 +1,10 @@
 import {
   createPriceObservation,
+  formatIsoDate,
   Money,
   type PriceObservation,
   type ProductId,
+  parseIsoDate,
 } from '../../../domain/index.ts';
 import type { PriceRepository } from '../../../ports/index.ts';
 import type { SqliteDatabase } from './database.ts';
@@ -13,6 +15,7 @@ interface PriceObservationRow {
   store_id: string;
   price_cents: number;
   currency: string;
+  /** DATE column: ISO text YYYY-MM-DD */
   observed_at: string;
 }
 
@@ -25,7 +28,7 @@ const toObservation = (row: PriceObservationRow): PriceObservation =>
       productId: row.product_id,
       storeId: row.store_id,
       price: Money.fromCents(row.price_cents, row.currency),
-      observedAt: row.observed_at,
+      observedAt: parseIsoDate(row.observed_at),
     },
     row.id,
   );
@@ -49,7 +52,7 @@ export class SqlitePriceRepository implements PriceRepository {
         observation.storeId,
         observation.price.cents,
         observation.price.currency,
-        observation.observedAt,
+        formatIsoDate(observation.observedAt),
       );
   }
 

@@ -1,3 +1,4 @@
+import { formatIsoDate } from '../domain/index.ts';
 import type { DataExporter, PriceRecord } from '../ports/index.ts';
 import { type CatalogRepositories, toPriceViews } from './price-view.ts';
 
@@ -17,7 +18,7 @@ export class ExportData {
     const views = await toPriceViews(observations, products, this.#repositories);
 
     const records: PriceRecord[] = views.map((view) => ({
-      observedAt: view.observedAt,
+      observedAt: formatIsoDate(view.observedAt),
       storeName: view.storeName,
       productName: view.productName,
       brand: view.brand,

@@ -1,4 +1,5 @@
 import type { ComparisonRow, PriceView } from '../../application/index.ts';
+import { formatIsoDate } from '../../domain/index.ts';
 import type { OutputFormatter } from './output-formatter.ts';
 
 const EMPTY = 'No results.';
@@ -21,7 +22,7 @@ export class TableFormatter implements OutputFormatter {
     return renderTable(
       ['Date', 'Store', 'Product', 'Brand', 'Unit', 'Price'],
       rows.map((r) => [
-        r.observedAt,
+        formatIsoDate(r.observedAt),
         r.storeName,
         r.productName,
         r.brand ?? '',
@@ -41,7 +42,7 @@ export class TableFormatter implements OutputFormatter {
         r.unit ?? '',
         r.storeName,
         r.price.toString(),
-        r.observedAt,
+        formatIsoDate(r.observedAt),
         r.cheapest
           ? '★ cheapest'
           : r.percentAboveCheapest === null

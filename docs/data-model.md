@@ -34,7 +34,7 @@ erDiagram
         TEXT store_id FK "-> stores.id"
         INTEGER price_cents "Amount in cents, >= 0"
         TEXT currency "ISO 4217, e.g. 'EUR'"
-        TEXT observed_at "Date YYYY-MM-DD"
+        DATE observed_at "Calendar date, stored as YYYY-MM-DD"
     }
 ```
 
@@ -78,7 +78,12 @@ Facts: the price of a product in a store on a date.
 | `store_id`    | TEXT    | NOT NULL, FK → `stores.id`   | Store where it was observed.               |
 | `price_cents` | INTEGER | NOT NULL, CHECK `>= 0`       | Amount in cents (`1.25 €` → `125`).        |
 | `currency`    | TEXT    | NOT NULL                     | ISO 4217 currency code (`EUR` by default). |
-| `observed_at` | TEXT    | NOT NULL                     | ISO date `YYYY-MM-DD`.                     |
+| `observed_at` | DATE    | NOT NULL, CHECK valid date   | Calendar date, stored as `YYYY-MM-DD`.     |
+
+`observed_at` is declared as `DATE` with `CHECK (observed_at IS date(observed_at))`, so only
+real calendar dates in ISO format are accepted (`2026-02-30` or `30/09/2026` are rejected).
+SQLite has no native date storage class: the value is kept as ISO 8601 text, which sorts
+chronologically and works with SQLite's date functions (`date()`, `strftime()`, ...).
 
 #### Indexes
 
@@ -98,7 +103,10 @@ Foreign keys are enforced (`PRAGMA foreign_keys = ON`).
 ## Design decisions
 
 - **Amounts in cents (`INTEGER`)**: avoids floating point rounding errors.
-- **Dates as ISO text**: SQLite has no date type; the `YYYY-MM-DD` format sorts correctly as text.
+- **Dates as `DATE` columns**: declared as `DATE` and validated with a `CHECK`; stored as ISO
+  text because SQLite has no date storage class. In the domain they are JavaScript `Date`
+  objects normalized to midnight UTC (a calendar date, no time or time zone); the SQLite adapter
+  converts between both representations.
 - **Normalized keys (`name_key`, `search_key`)**: computed by the application with
   `ProductMatcher.normalize` (domain), so the database needs no extensions for
   accent-insensitive search.
@@ -115,6 +123,7 @@ idempotent migrations are applied in `src/adapters/persistence/sqlite/database.t
 | Migration                         | Reason                                 |
 |-----------------------------------|----------------------------------------|
 | `products.size` → `products.unit` | Field renamed in the `Product` entity. |
+| `price_observations.observed_at`: `TEXT` → `DATE` | Dates must be dates. SQLite cannot alter a column type, so the table is rebuilt (copy, drop, rename) inside a transaction. |
 
 ## Mapping to the domain
 
@@ -122,7 +131,7 @@ idempotent migrations are applied in `src/adapters/persistence/sqlite/database.t
 |----------------------|-------------------------------|---------------------------------------------|
 | `stores`             | `Store`                       | `name_key` is a persistence detail.         |
 | `products`           | `Product`                     | `search_key` is a persistence detail.       |
-| `price_observations` | `PriceObservation`            | `price_cents` + `currency` → `Money` value. |
+| `price_observations` | `PriceObservation`            | `price_cents` + `currency` → `Money` value; `observed_at` → `Date` (midnight UTC). |
 
 ## Known limitations
 

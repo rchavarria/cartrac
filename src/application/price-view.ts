@@ -1,5 +1,4 @@
 import {
-  type IsoDate,
   type Money,
   type PriceObservation,
   type Product,
@@ -16,7 +15,8 @@ export interface PriceView {
   readonly unit: string | null;
   readonly storeName: string;
   readonly price: Money;
-  readonly observedAt: IsoDate;
+  /** Calendar date (midnight UTC). */
+  readonly observedAt: Date;
 }
 
 export interface CatalogRepositories {
