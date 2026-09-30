@@ -26,7 +26,11 @@ export async function run(argv: readonly string[], options: RunOptions = {}): Pr
     .name('cartrac')
     .description('Track grocery prices over time and compare them across supermarkets')
     .version('0.1.0')
-    .option('--db <path>', 'SQLite database file (env: CARTRAC_DB)', defaultDatabasePath())
+    .option(
+      '--db <path>',
+      'SQLite database file, relative to the project root (env: CARTRAC_DB)',
+      defaultDatabasePath(),
+    )
     .exitOverride();
 
   const ctx: CliContext = {

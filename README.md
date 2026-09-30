@@ -15,7 +15,9 @@ npm start -- compare aceite -o json         # latest price per store, cheapest f
 npm start -- export backup.csv              # re-importable export
 ```
 
-Database: `~/.cartrac/cartrac.db` (override with `--db <path>` or `CARTRAC_DB`).
+Database: `data/cartrac.db` inside the project. It can be changed with `--db <path>` (or
+`CARTRAC_DB`), always relative to the project root and inside it, regardless of the current
+directory; absolute paths or paths escaping the project are rejected.
 
 ```bash
 npm run check   # typecheck + biome + tests
